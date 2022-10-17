@@ -6,7 +6,7 @@ $(document).ready(function(){
         adaptiveHeight: true,
         responsive: [
             {
-                breakpoint: 768,
+                breakpoint: 769,
                 settings: {
                     arrows: false
                 }
