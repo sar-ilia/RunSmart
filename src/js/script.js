@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     // Modal
 
-    $('[data-modal=consultation]').on('click', function() {
+    /* $('[data-modal=consultation]').on('click', function() {
         $('.overlay, #consultation').fadeIn('slow');
     });
     $('.modal__close').on('click', function() {
@@ -47,7 +47,56 @@ $(document).ready(function(){
             $('#order .modal__descr').text($('.catalog-item__subtitle').eq(i).text());
             $('.overlay, #order').fadeIn('slow');
         });
+    }); */
+
+    const btns = document.querySelectorAll('[data-modal=consultation]'),
+          close = document.querySelector('.modal__close'),
+          modal = document.querySelector('.modal'),
+          overlay = document.querySelector('.overlay');
+
+    function openModal() {
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId);
+    }
+
+    btns.forEach(i => {
+        i.addEventListener('click', openModal);
     });
+
+    function closeModal() {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    close.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', (e) => {
+        if(e.target === overlay) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Escape') {
+            closeModal();
+        }
+    });
+
+    const modalTimerId = setTimeout(openModal, 5000);
+
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
+
+    // Validate forms
 
     function validateForms(form){
         $(form).validate({
@@ -103,11 +152,21 @@ $(document).ready(function(){
 
     //scroll and pageup
 
-    $(window).scroll(function() {
+    /* $(window).scroll(function() {
         if ($(this).scrollTop() > 1600) {
             $('.pageup').fadeIn();
         } else {
             $('.pageup').fadeOut();
+        }
+    }); */
+
+    const pageUp = document.querySelector('.pageup');
+
+    window.addEventListener('scroll', () => {
+        if (document.documentElement.scrollTop > 1600) {
+            pageUp.style.display = 'block';
+        } else {
+            pageUp.style.display = 'none';
         }
     });
 
